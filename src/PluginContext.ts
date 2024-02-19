@@ -22,4 +22,12 @@ export default class PluginContext {
   static getVuetify(): PluginOptions['vuetify'] {
     return PluginContext.pluginOptions.vuetify;
   }
+
+  static getI18n(): PluginOptions['i18n'] {
+    return PluginContext.pluginOptions.i18n || {};
+  }
+
+  static getRouter(): PluginOptions['router'] {
+    return PluginContext.pluginOptions.router || {};
+  }
 }
