@@ -57,6 +57,8 @@ export function createNotification(options: CreateNotifyOptions) {
       });
 
       _app.use(PluginContext.getVuetify());
+      _app.use(PluginContext.getI18n());
+      _app.use(PluginContext.getRouter());
 
       document.body.appendChild(div);
       _app.mount(div);
