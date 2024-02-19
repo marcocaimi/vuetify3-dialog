@@ -55,6 +55,8 @@ export function createDialog(options: CreateDialogOptions) {
       });
 
       _app.use(PluginContext.getVuetify());
+      _app.use(PluginContext.getI18n());
+      _app.use(PluginContext.getRouter());
 
       document.body.appendChild(div);
       _app.mount(div);
@@ -105,18 +107,26 @@ export function successDialog(options: BasicDialogOptions) {
 }
 
 export function confirmDialog(options: ConfirmDialogOptions) {
+  let cancelButtonOption = Object.assign(
+    {
+      key: false,
+      title: options.cancelText || 'Cancel',
+    },
+    PluginContext.getPluginOptions().defaults?.dialog?.confirm?.cancelButtonOptions,
+    options.cancelButtonOptions,
+  );
+  let confirmButtonOption = Object.assign(
+    {
+      key: true,
+      title: options.confirmationText || 'Confirm',
+    },
+    PluginContext.getPluginOptions().defaults?.dialog?.confirm?.confirmationButtonOptions,
+    options.confirmationButtonOptions,
+  );
   return createDialog({
     title: options.title,
     text: options.text,
-    buttons: [
-      { key: false, title: options.cancelText || 'Cancel', color: 'grey', ...options.cancelButtonOptions },
-      {
-        key: true,
-        title: options.confirmationText || 'Confirm',
-        color: 'warning',
-        ...options.confirmationButtonOptions,
-      },
-    ],
+    buttons: [cancelButtonOption, confirmButtonOption],
     level: options.level,
     cardOptions: options.cardOptions,
   });

@@ -8,10 +8,13 @@ import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
 
 export type PluginOptions = {
   vuetify: Plugin;
+  i18n: Plugin;
+  router: Plugin;
   defaults?: {
     dialog?: {
       component?: VDialog['$props'];
       card?: VCard['$props'];
+      confirm?: ConfirmDialogOptions;
     };
     notify?: VSnackbar['$props'];
     bottomSheet?: VBottomSheet['$props'];

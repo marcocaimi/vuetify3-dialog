@@ -1,7 +1,7 @@
 {
   "name": "vuetify3-dialog",
   "version": "1.4.5",
-  "description": "Vue 3 & Vuetify 3 plugin to create dialogs, toasts and bottom-sheets with Promises.",
+  "description": "Vue 3 & Vuetify 3 plugin to create dialogs, toasts and bottom-sheets with Promises. add support for 18n and vue-router ",
   "keywords": [
     "vue",
     "vuetify",
@@ -12,14 +12,14 @@
     "toasts",
     "confirm"
   ],
-  "author": "ThomasLeconte",
-  "homepage": "https://github.com/ThomasLeconte/vuetify3-dialog/blob/master/README.md",
+  "author": "MarcoCaimi",
+  "homepage": "https://github.com/marcocaimi/vuetify3-dialog/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ThomasLeconte/vuetify3-dialog"
+    "url": "https://github.com/marcocaimi/vuetify3-dialog"
   },
-  "bugs": "https://github.com/ThomasLeconte/vuetify3-dialog/issues",
-  "license": "ISC",
+  "bugs": "https://github.com/marcocaimi/vuetify3-dialog/issues",
+  "license": "MIT",
   "main": "lib/index.js",
   "type": "module",
   "exports": {

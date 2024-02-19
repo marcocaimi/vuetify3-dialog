@@ -5,71 +5,74 @@ import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VIcon } from 'vuetify
 const props = defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   text: {
     type: String,
-    required: true
+    required: true,
   },
   buttons: {
     type: Array as () => any[],
   },
   icon: {
     type: String,
-    default: ''
+    default: '',
   },
   level: {
     type: String as () => 'info' | 'warning' | 'error' | 'success',
-    default: 'info'
+    default: 'info',
   },
   cardOptions: {
     type: Object,
-    default: () => ({})
-  }
-})
+    default: () => ({}),
+  },
+});
 
 // ------- EVENTS -------
-const emit = defineEmits(['buttonClicked'])
+const emit = defineEmits(['buttonClicked']);
 
 // ------- COMPUTED -------
 const _buttons = computed(() => {
-  if(props.buttons && props.buttons.length > 0) return props.buttons
-  else return [
-    { key: 'cancel', title: 'Annuler', value: 'cancel', color: 'grey', variant: 'text' },
-    { key: 'ok', title: 'OK', value: 'ok', color: props.level, variant: 'tonal' }
-  ]
-})
+  if (props.buttons && props.buttons.length > 0) return props.buttons;
+  else
+    return [
+      { key: 'cancel', title: 'Cancel', value: 'cancel', color: 'primary', variant: 'outlined' },
+      { key: 'ok', title: 'OK', value: 'ok', color: 'primary', variant: 'tonal' },
+    ];
+});
 
 const _icon = computed(() => {
   switch (props.level) {
     case 'info':
-      return 'mdi-information'
+      return '$info';
     case 'warning':
-      return 'mdi-alert'
+      return '$warning';
     case 'error':
-      return 'mdi-alert-circle'
+      return '$error';
     case 'success':
-      return 'mdi-check-circle'
+      return '$success';
     default:
-      return 'mdi-information'
+      return '$info';
   }
-})
+});
 
 const _color = computed(() => {
-  return props.level === 'info' ? 'primary' : props.level
-})
+  return props.level === 'info' ? 'primary' : props.level;
+});
 
 // ------- METHODS -------
-function close(buttonKey: string | boolean){
-  emit('buttonClicked', buttonKey)
+function close(buttonKey: string | boolean) {
+  emit('buttonClicked', buttonKey);
 }
 </script>
 
 <template>
   <VCard class="vuetify3-dialog-card" v-bind="cardOptions">
-    <VCardTitle class="d-flex align-center"><VIcon :color="_color" class="mr-2">{{_icon}}</VIcon>{{title}}</VCardTitle>
-    <VCardText>{{text}}</VCardText>
-    <VCardActions>
+    <VCardTitle class="d-flex align-center bg-primary">
+      <VIcon class="mr-2">{{ _icon }}</VIcon> {{ title }}
+    </VCardTitle>
+    <VCardText>{{ text }}</VCardText>
+    <VCardActions class="justify-end">
       <VBtn
         v-for="button in _buttons"
         :key="button.key"
@@ -77,7 +80,7 @@ function close(buttonKey: string | boolean){
         :color="button.color || _color"
         @click="close(button.key)"
       >
-        {{button.title}}
+        {{ button.title }}
       </VBtn>
     </VCardActions>
   </VCard>
