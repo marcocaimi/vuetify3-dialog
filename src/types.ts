@@ -54,6 +54,7 @@ export type CreateDialogOptions = {
   buttons?: DialogButton[];
   level?: Level;
   customComponent?: ComponentOptions;
+  wrapComponent?: boolean;
   dialogOptions?: VDialog['$props'];
   cardOptions?: VCard['$props'];
 };

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VIcon } from 'vuetify/lib/components/index.mjs';
+import { ComponentOptions } from 'types';
+import { computed, Component, PropType } from 'vue';
+import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VIcon, VSpacer } from 'vuetify/lib/components/index.mjs';
 
 const props = defineProps({
   title: {
@@ -25,6 +26,10 @@ const props = defineProps({
   cardOptions: {
     type: Object,
     default: () => ({}),
+  },
+  customComponent: {
+    type: Object as PropType<ComponentOptions>,
+    required: false,
   },
 });
 
@@ -68,10 +73,21 @@ function close(buttonKey: string | boolean) {
 
 <template>
   <VCard class="vuetify3-dialog-card" v-bind="cardOptions">
-    <VCardTitle class="d-flex align-center bg-primary">
+    <VCardTitle class="d-flex align-center bg-primary justify-space-between">
       <VIcon class="mr-2">{{ _icon }}</VIcon> {{ title }}
+      <v-spacer />
+      <v-btn @click="close(false)" icon>
+        <v-icon>$close</v-icon>
+      </v-btn>
     </VCardTitle>
-    <VCardText>{{ text }}</VCardText>
+    <component
+      v-if="customComponent"
+      :is="customComponent.component"
+      v-bind="customComponent.props"
+      @closeDialog="close"
+      ref="custom-component"
+    />
+    <VCardText v-else>{{ text }}</VCardText>
     <VCardActions class="justify-end">
       <VBtn
         v-for="button in _buttons"
