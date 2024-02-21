@@ -13,6 +13,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  showDefaultButtons: {
+    type: Boolean,
+    default: false,
+  },
   buttons: {
     type: Array as () => any[],
   },
@@ -72,6 +76,7 @@ function close(buttonKey: string | boolean) {
         :text="text"
         :customComponent="customComponent"
         :buttons="buttons"
+        :showDefaultButtons="showDefaultButtons"
         :icon="icon"
         :level="level"
         @buttonClicked="close"

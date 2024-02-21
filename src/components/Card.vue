@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  showDefaultButtons: {
+    type: Boolean,
+    default: false,
+  },
   buttons: {
     type: Array as () => any[],
   },
@@ -39,11 +43,14 @@ const emit = defineEmits(['buttonClicked']);
 // ------- COMPUTED -------
 const _buttons = computed(() => {
   if (props.buttons && props.buttons.length > 0) return props.buttons;
-  else
+  else if (props.showDefaultButtons)
     return [
       { key: 'cancel', title: 'Cancel', value: 'cancel', color: 'primary', variant: 'outlined' },
       { key: 'ok', title: 'OK', value: 'ok', color: 'primary', variant: 'tonal' },
     ];
+  else {
+    return [];
+  }
 });
 
 const _icon = computed(() => {
@@ -88,13 +95,13 @@ function close(buttonKey: string | boolean) {
       ref="custom-component"
     />
     <VCardText v-else>{{ text }}</VCardText>
-    <VCardActions class="justify-end">
+    <VCardActions class="justify-end" v-if="_buttons?.length > 0">
       <VBtn
         v-for="button in _buttons"
         :key="button.key"
         v-bind="button"
         :color="button.color || _color"
-        @click="close(button.key)"
+        @click="button.key && close(button.key)"
       >
         {{ button.title }}
       </VBtn>

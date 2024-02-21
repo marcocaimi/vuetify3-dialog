@@ -51,6 +51,7 @@ export type ConfirmDialogOptions = {
 export type CreateDialogOptions = {
   title: string;
   text: string;
+  showDefaultButtons?: boolean;
   buttons?: DialogButton[];
   level?: Level;
   customComponent?: ComponentOptions;

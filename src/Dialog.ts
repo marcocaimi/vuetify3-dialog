@@ -39,6 +39,7 @@ export function createDialog(options: CreateDialogOptions) {
         text: options.text,
         buttons: options.buttons,
         level: options.level,
+        showDefaultButtons: options.showDefaultButtons,
         customComponent: options.customComponent,
         wrapComponent: options.wrapComponent || false,
         dialogOptions: PluginContext.getPluginOptions().defaults?.dialog?.component ||
