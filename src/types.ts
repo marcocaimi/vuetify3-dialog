@@ -69,6 +69,7 @@ export type CreateBottomSheetOptions = {
   title?: string;
   text?: string;
   items?: VListItem['$props'][];
+  customComponent?: ComponentOptions;
   dialogOptions?: CreateDialogOptions;
   bottomSheetOptions?: VBottomSheet['$props'];
 };

@@ -46,6 +46,7 @@ export function createBottomSheet(options: CreateBottomSheetOptions) {
         items: options?.items,
         title: options?.title,
         text: options?.text,
+        customComponent: options.customComponent,
         onCloseBottomSheet: (value: string | boolean) => {
           resolve(value);
           setTimeout(() => {
