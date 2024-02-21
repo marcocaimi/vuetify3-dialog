@@ -66,7 +66,8 @@ export type CreateBottomSheetOptions = {
   title?: string;
   text?: string;
   items?: VListItem['$props'][];
-  dialogOptions?: CreateDialogOptions;
+  customComponent?: ComponentOptions;
+  bottomSheetOptions?: VBottomSheet['$props'];
 };
 
 //SFC dialogs methods

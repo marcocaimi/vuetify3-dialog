@@ -18,10 +18,6 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  dialogOptions: {
-    type: Object,
-    required: false,
-  },
   items: {
     type: Array as () => any[],
     required: false,

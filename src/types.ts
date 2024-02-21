@@ -71,6 +71,5 @@ export type CreateBottomSheetOptions = {
   text?: string;
   items?: VListItem['$props'][];
   customComponent?: ComponentOptions;
-  dialogOptions?: CreateDialogOptions;
   bottomSheetOptions?: VBottomSheet['$props'];
 };
