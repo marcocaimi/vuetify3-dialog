@@ -93,6 +93,7 @@ export default defineComponent({
           props: { message: 'Hello world!' },
         },
         wrapComponent: true,
+        showDefaultButtons: true,
         dialogOptions: {
           width: '600px',
           persistent: true,
