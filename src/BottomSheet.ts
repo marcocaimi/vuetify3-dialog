@@ -28,13 +28,8 @@ export function createBottomSheetList(items: VListItem['$props'][], options?: Cr
 
 export function createBottomSheet(options: CreateBottomSheetOptions) {
   try {
-    if (options.items && options.dialogOptions) {
+    if (options.items) {
       throw new Error('You can not use items and dialogOptions together');
-    }
-
-    if (options.dialogOptions) {
-      if (!isNotEmptyAndNotNull(options.dialogOptions.title)) throw new Error('title is required');
-      if (!isNotEmptyAndNotNull(options.dialogOptions.text)) throw new Error('text is required');
     }
 
     const div = document.createElement('div');
@@ -42,7 +37,6 @@ export function createBottomSheet(options: CreateBottomSheetOptions) {
       const _app = createApp(BottomSheet, {
         bottomSheetOptions:
           options?.bottomSheetOptions || PluginContext.getPluginOptions().defaults?.bottomSheet || undefined,
-        dialogOptions: options?.dialogOptions,
         items: options?.items,
         title: options?.title,
         text: options?.text,
