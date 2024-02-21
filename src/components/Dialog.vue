@@ -65,16 +65,17 @@ function close(buttonKey: string | boolean) {
         ref="custom-component"
       />
     </template>
-    <Card
-      v-else
-      v-bind="cardOptions"
-      :title="title"
-      :text="text"
-      :component="customComponent"
-      :buttons="buttons"
-      :icon="icon"
-      :level="level"
-      @buttonClicked="close"
-    />
+    <template v-else>
+      <Card
+        v-bind="cardOptions"
+        :title="title"
+        :text="text"
+        :customComponent="customComponent"
+        :buttons="buttons"
+        :icon="icon"
+        :level="level"
+        @buttonClicked="close"
+      />
+    </template>
   </VDialog>
 </template>

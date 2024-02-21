@@ -62,6 +62,7 @@
 import { defineComponent } from 'vue';
 import MyComponent from './MyComponent.vue';
 import TestComponents from './TestComponents.vue';
+import TestDialogCard from './TestDialogCard.vue';
 import sfcExampleVue from './sfc-example.vue';
 
 export default defineComponent({
@@ -86,10 +87,12 @@ export default defineComponent({
     },
     createCustomComponentDialog() {
       this.$dialog.create({
+        title: 'TITLE',
         customComponent: {
           component: MyComponent,
           props: { message: 'Hello world!' },
         },
+        wrapComponent: true,
         dialogOptions: {
           width: '600px',
           persistent: true,
