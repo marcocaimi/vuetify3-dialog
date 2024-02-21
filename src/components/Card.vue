@@ -76,7 +76,7 @@ function close(buttonKey: string | boolean) {
     <VCardTitle class="d-flex align-center bg-primary justify-space-between">
       <VIcon class="mr-2">{{ _icon }}</VIcon> {{ title }}
       <v-spacer />
-      <v-btn @click="close(false)" icon>
+      <v-btn @click="close(false)" icon color="primary" variant="flat">
         <v-icon>$close</v-icon>
       </v-btn>
     </VCardTitle>

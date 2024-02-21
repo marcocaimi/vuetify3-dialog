@@ -66,11 +66,11 @@ function close(value: string | boolean) {
 <template>
   <VBottomSheet class="vuetify3-dialog-bottom-sheet" v-bind="bottomSheetOptions" v-model="showBottomSheet">
     <VCard @buttonClicked="close(false)">
-      <VToolbar color="primary" height="35">
-        <VCardTitle>{{ title }}</VCardTitle>
-        <VSpacer />
-        <VBtn @click="close(false)" density="compact" color="white" icon="cancel"></VBtn>
-      </VToolbar>
+      <VCardTitle class="d-flex align-center bg-primary justify-space-between">
+        {{ title }}
+        <v-spacer />
+        <v-btn @click="close(false)" color="primary" variant="flat" icon="$close" density="compact"> </v-btn>
+      </VCardTitle>
       <VCardText v-if="text"> {{ text }}</VCardText>
       <VList v-if="items">
         <VListItem v-for="item in _items" :title="item.title" :key="item.value" @click="close(item.value)" />
