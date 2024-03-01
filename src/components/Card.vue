@@ -80,10 +80,10 @@ function close(buttonKey: string | boolean) {
 
 <template>
   <VCard class="vuetify3-dialog-card" v-bind="cardOptions">
-    <VCardTitle class="d-flex align-center bg-primary justify-space-between">
+    <VCardTitle class="d-flex align-center justify-space-between" :class="cardOptions.color">
       <VIcon class="mr-2">{{ _icon }}</VIcon> {{ title }}
       <v-spacer />
-      <v-btn @click="close(false)" icon color="primary" variant="flat">
+      <v-btn @click="close(false)" icon :color="cardOptions.color" variant="flat">
         <v-icon>$close</v-icon>
       </v-btn>
     </VCardTitle>
