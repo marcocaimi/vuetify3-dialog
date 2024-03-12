@@ -101,7 +101,7 @@ function close(buttonKey: string | boolean) {
         :key="button.key"
         v-bind="button"
         :color="button.color || _color"
-        @click="button.key && close(button.key)"
+        @click="button.key != undefined && close(button.key)"
       >
         {{ button.title }}
       </VBtn>
