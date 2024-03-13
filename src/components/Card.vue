@@ -29,7 +29,9 @@ const props = defineProps({
   },
   cardOptions: {
     type: Object,
-    default: () => ({}),
+    default: () => ({
+      headerColor: 'primary',
+    }),
   },
   customComponent: {
     type: Object as PropType<ComponentOptions>,
@@ -80,10 +82,10 @@ function close(buttonKey: string | boolean) {
 
 <template>
   <VCard class="vuetify3-dialog-card" v-bind="cardOptions">
-    <VCardTitle class="d-flex align-center justify-space-between" :class="cardOptions.color">
+    <VCardTitle class="d-flex align-center justify-space-between" :class="`bg-${cardOptions.headerColor}`">
       <VIcon class="mr-2">{{ _icon }}</VIcon> {{ title }}
       <v-spacer />
-      <v-btn @click="close(false)" icon :color="cardOptions.color" variant="flat">
+      <v-btn @click="close(false)" icon :color="cardOptions.headerColor" variant="flat">
         <v-icon>$close</v-icon>
       </v-btn>
     </VCardTitle>
