@@ -1,9 +1,10 @@
 import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
-import { BasicDialogOptions, ConfirmDialogOptions, CreateDialogOptions } from 'types';
-import { createApp } from 'vue';
 import Dialog from './components/Dialog.vue';
+import { BasicDialogOptions, ConfirmDialogOptions, CreateDialogOptions } from 'types';
+import { App, createApp } from 'vue';
 
+const dialogs: DialogInstance[] = [];
 export default class Dialogs extends Notifier {
   initContext(): void {
     this._app.config.globalProperties.$dialog = {
@@ -13,7 +14,27 @@ export default class Dialogs extends Notifier {
       error: errorDialog,
       info: infoDialog,
       success: successDialog,
+      hasDialogs: () => dialogs.length > 0,
+      closeAll: () => {
+        dialogs.forEach((dialog) => {
+          dialog.close();
+        });
+        dialogs.splice(0, dialogs.length);
+      },
     };
+    this._app.provide('$dialog', this._app.config.globalProperties.$dialog);
+  }
+}
+class DialogInstance {
+  private _element: HTMLElement;
+  private _app: App<Element>;
+  constructor(element: HTMLElement, app: App<Element>) {
+    this._element = element;
+    this._app = app;
+  }
+  public close() {
+    this._app.unmount();
+    document.body.removeChild(this._element);
   }
 }
 
@@ -47,11 +68,10 @@ export function createDialog(options: CreateDialogOptions) {
             width: '400px',
           },
         cardOptions: options.cardOptions || PluginContext.getPluginOptions().defaults?.dialog?.card || undefined,
-        onCloseDialog: (value: string | boolean) => {
+        onCloseDialog: (value: string | boolean | object) => {
           resolve(value);
           setTimeout(() => {
-            _app.unmount();
-            document.body.removeChild(div);
+            dialog.close();
           }, 500);
         },
       });
@@ -61,7 +81,9 @@ export function createDialog(options: CreateDialogOptions) {
       _app.use(PluginContext.getRouter());
 
       document.body.appendChild(div);
-      _app.mount(div);
+      let app = _app.mount(div);
+      const dialog = new DialogInstance(div, _app);
+      dialogs.push(dialog);
     });
   } catch (err: any) {
     console.error(`[Vuetify3Dialog] ${err.message} [${err.stack}]`);

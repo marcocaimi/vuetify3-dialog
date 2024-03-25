@@ -60,7 +60,7 @@ function close(buttonKey: string | boolean) {
 </script>
 
 <template>
-  <VDialog class="vuetify3-dialog-popup" v-model="showDialog" v-bind="dialogOptions">
+  <VDialog class="vuetify3-dialog-popup" v-model="showDialog" v-bind="dialogOptions" close-on-back>
     <template v-if="customComponent && !wrapComponent">
       <component
         :is="customComponent.component"
