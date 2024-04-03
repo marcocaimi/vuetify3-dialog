@@ -64,7 +64,7 @@ export function createDialog(options: CreateDialogOptions) {
         customComponent: options.customComponent,
         wrapComponent: options.wrapComponent || false,
         dialogOptions: options.dialogOptions || {
-          width: '400px',
+          width: '600px',
         },
         cardOptions: options.cardOptions || PluginContext.getPluginOptions().defaults?.dialog?.card || undefined,
         onCloseDialog: (value: string | boolean | object) => {
