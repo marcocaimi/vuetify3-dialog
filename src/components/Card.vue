@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ComponentOptions } from 'types';
-import { computed, Component, PropType } from 'vue';
+import { computed, Component, PropType, ref } from 'vue';
 import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VIcon, VSpacer } from 'vuetify/lib/components/index.mjs';
 
 const props = defineProps({
@@ -21,7 +21,6 @@ const props = defineProps({
   },
   icon: {
     type: String,
-    default: '',
   },
   level: {
     type: String as () => 'info' | 'warning' | 'error' | 'success',
@@ -41,6 +40,9 @@ const props = defineProps({
 
 // ------- EVENTS -------
 const emit = defineEmits(['buttonClicked']);
+
+// ------- DATA -------
+const emittedTitle = ref<string>();
 
 // ------- COMPUTED -------
 const _buttons = computed(() => {
@@ -74,16 +76,23 @@ const _color = computed(() => {
   return props.level === 'info' ? 'primary' : props.level;
 });
 
+const calculatedTitle = computed(() => {
+  return emittedTitle.value || props.title;
+});
+
 // ------- METHODS -------
 function close(buttonKey: string | boolean) {
   emit('buttonClicked', buttonKey);
+}
+function setTitle(newTitle: string) {
+  emittedTitle.value = newTitle;
 }
 </script>
 
 <template>
   <VCard class="vuetify3-dialog-card" v-bind="cardOptions">
     <VCardTitle class="d-flex align-center justify-space-between" :class="`bg-${cardOptions.headerColor}`">
-      <VIcon class="mr-2">{{ _icon }}</VIcon> {{ title }}
+      <VIcon class="mr-2">{{ _icon }}</VIcon> {{ calculatedTitle }}
       <v-spacer />
       <v-btn @click="close(false)" icon :color="cardOptions.headerColor" variant="flat">
         <v-icon>$close</v-icon>
@@ -94,6 +103,7 @@ function close(buttonKey: string | boolean) {
       :is="customComponent.component"
       v-bind="customComponent.props"
       @closeDialog="close"
+      @set:title="setTitle"
       ref="custom-component"
     />
     <VCardText v-else>{{ text }}</VCardText>
