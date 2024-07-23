@@ -1,4 +1,4 @@
-import { Component, Plugin } from 'vue';
+import { App, Component, Plugin } from 'vue';
 import { VBottomSheet } from 'vuetify/lib/components/VBottomSheet/index.mjs';
 import { VBtn } from 'vuetify/lib/components/VBtn/index.mjs';
 import { VCard } from 'vuetify/lib/components/VCard/index.mjs';
@@ -7,6 +7,7 @@ import { VListItem } from 'vuetify/lib/components/VList/index.mjs';
 import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
 
 export type PluginOptions = {
+  app: App;
   vuetify: Plugin;
   i18n: Plugin;
   router: Plugin;

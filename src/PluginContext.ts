@@ -11,7 +11,7 @@ export default class PluginContext {
       throw new Error(
         'Error during initialization : vuetify is required. Please declare it with Vue.use(Dialogs, { vuetify })',
       );
-
+    _pluginOptions.app = app;
     PluginContext.pluginOptions = _pluginOptions;
   }
 

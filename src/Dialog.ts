@@ -2,7 +2,7 @@ import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import Dialog from './components/Dialog.vue';
 import { BasicDialogOptions, ConfirmDialogOptions, CreateDialogOptions } from 'types';
-import { App, createApp } from 'vue';
+import { App, createApp, createVNode, getCurrentInstance, h, render, VNode } from 'vue';
 
 const dialogs: DialogInstance[] = [];
 export default class Dialogs extends Notifier {
@@ -27,13 +27,14 @@ export default class Dialogs extends Notifier {
 }
 class DialogInstance {
   private _element: HTMLElement;
-  private _app: App<Element>;
-  constructor(element: HTMLElement, app: App<Element>) {
+  private _app: VNode;
+  constructor(element: HTMLElement, app: VNode) {
     this._element = element;
     this._app = app;
   }
   public close() {
-    this._app.unmount();
+    // this._app.unmount();
+    render(null, this._element);
     document.body.removeChild(this._element);
   }
 }
@@ -41,6 +42,7 @@ class DialogInstance {
 export function createDialog(options: CreateDialogOptions) {
   try {
     const div = document.createElement('div');
+    document.body.appendChild(div);
 
     if (!options.customComponent) {
       if (!isNotEmptyAndNotNull(options.title)) throw new Error('title is required');
@@ -55,7 +57,31 @@ export function createDialog(options: CreateDialogOptions) {
     }
 
     return new Promise((resolve, reject) => {
-      const _app = createApp(Dialog, {
+      //   const _app = createApp(Dialog, {
+      //     title: options.title,
+      //     text: options.text,
+      //     buttons: options.buttons,
+      //     level: options.level,
+      //     showDefaultButtons: options.showDefaultButtons,
+      //     customComponent: options.customComponent,
+      //     wrapComponent: options.wrapComponent || false,
+      //     dialogOptions: options.dialogOptions || {
+      //       minWidth: '600px',
+      //     },
+      //     cardOptions: options.cardOptions || PluginContext.getPluginOptions().defaults?.dialog?.card || undefined,
+      //     onCloseDialog: (value: string | boolean | object) => {
+      //       resolve(value);
+      //       setTimeout(() => {
+      //         dialog.close();
+      //       }, 500);
+      //     },
+      //   });
+
+      //   _app.use(PluginContext.getVuetify());
+      //   _app.use(PluginContext.getI18n());
+      //   _app.use(PluginContext.getRouter());
+
+      const dialogComponentInstance = createVNode(Dialog, {
         title: options.title,
         text: options.text,
         buttons: options.buttons,
@@ -74,14 +100,11 @@ export function createDialog(options: CreateDialogOptions) {
           }, 500);
         },
       });
+      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app._instance?.appContext as any;
+      render(dialogComponentInstance, div);
 
-      _app.use(PluginContext.getVuetify());
-      _app.use(PluginContext.getI18n());
-      _app.use(PluginContext.getRouter());
-
-      document.body.appendChild(div);
-      let app = _app.mount(div);
-      const dialog = new DialogInstance(div, _app);
+      // let app = _app.mount(div);
+      const dialog = new DialogInstance(div, dialogComponentInstance);
       dialogs.push(dialog);
     });
   } catch (err: any) {
