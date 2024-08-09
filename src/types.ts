@@ -7,7 +7,7 @@ import { VListItem } from 'vuetify/lib/components/VList/index.mjs';
 import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
 
 export type PluginOptions = {
-  app: App;
+  app?: App;
   vuetify: Plugin;
   i18n: Plugin;
   router: Plugin;
