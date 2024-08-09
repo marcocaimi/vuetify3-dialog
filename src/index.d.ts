@@ -7,11 +7,15 @@ import { VListItem } from 'vuetify/lib/components/VList/index.mjs';
 import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
 
 export type PluginOptions = {
+  app: App;
   vuetify: Plugin;
+  i18n: Plugin;
+  router: Plugin;
   defaults?: {
     dialog?: {
       component?: VDialog['$props'];
       card?: VCard['$props'];
+      confirm?: ConfirmDialogOptions;
     };
     notify?: VSnackbar['$props'];
     bottomSheet?: VBottomSheet['$props'];
