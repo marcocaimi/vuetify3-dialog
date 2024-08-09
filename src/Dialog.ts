@@ -100,7 +100,7 @@ export function createDialog(options: CreateDialogOptions) {
           }, 500);
         },
       });
-      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app._instance?.appContext as any;
+      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._instance?.appContext as any;
       render(dialogComponentInstance, div);
 
       // let app = _app.mount(div);
