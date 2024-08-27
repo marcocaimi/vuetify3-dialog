@@ -2,7 +2,7 @@ import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import Dialog from './components/Dialog.vue';
 import { BasicDialogOptions, ConfirmDialogOptions, CreateDialogOptions } from 'types';
-import { App, createApp, createVNode, getCurrentInstance, h, render, VNode } from 'vue';
+import { createVNode, h, render, VNode } from 'vue';
 
 const dialogs: DialogInstance[] = [];
 export default class Dialogs extends Notifier {
@@ -100,7 +100,7 @@ export function createDialog(options: CreateDialogOptions) {
           }, 500);
         },
       });
-      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._instance?.appContext as any;
+      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._context as any;
       render(dialogComponentInstance, div);
 
       // let app = _app.mount(div);
