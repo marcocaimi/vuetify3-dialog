@@ -10,7 +10,7 @@ export type PluginOptions = {
   app?: App;
   vuetify: Plugin;
   i18n: Plugin;
-  router: Plugin;
+  router?: Plugin;
   defaults?: {
     dialog?: {
       component?: VDialog['$props'];
