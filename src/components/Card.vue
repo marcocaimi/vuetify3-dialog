@@ -92,8 +92,11 @@ function setTitle(newTitle: string) {
 <template>
   <VCard class="vuetify3-dialog-card" v-bind="cardOptions">
     <VCardTitle class="d-flex align-center justify-space-between" :class="`bg-${cardOptions.headerColor}`">
-      <VIcon class="mr-2">{{ _icon }}</VIcon> {{ calculatedTitle }}
-      <v-spacer />
+      <img v-if="cardOptions.headerImg" :src="cardOptions.headerImg" alt="Immagine header" />
+      <template v-else>
+        <VIcon class="mr-2">{{ _icon }}</VIcon> {{ calculatedTitle }}
+      </template>
+      <VSpacer />
       <v-btn @click="close(false)" icon :color="cardOptions.headerColor" variant="flat">
         <v-icon>$close</v-icon>
       </v-btn>

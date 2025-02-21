@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ComponentOptions } from 'types';
 import { Component, PropType, ref } from 'vue';
-import { VDialog } from 'vuetify/lib/components/index.mjs';
+import { VDialog, VBtn, VIcon } from 'vuetify/lib/components/index.mjs';
 import Card from './Card.vue';
 
 const props = defineProps({
@@ -30,7 +30,6 @@ const props = defineProps({
   },
   cardOptions: {
     type: Object,
-    default: () => ({}),
   },
   dialogOptions: {
     type: Object,
@@ -62,6 +61,15 @@ function close(buttonKey: string | boolean) {
 <template>
   <VDialog class="vuetify3-dialog-popup" v-model="showDialog" v-bind="dialogOptions" close-on-back>
     <template v-if="customComponent && !wrapComponent">
+      <VBtn
+        class="close-dialog-btn position-absolute"
+        style="z-index: 1; right: 6px; top: 6px"
+        @click="close(false)"
+        icon
+        variant="text"
+      >
+        <v-icon>$close</v-icon>
+      </VBtn>
       <component
         :is="customComponent.component"
         v-bind="customComponent.props"
@@ -71,7 +79,7 @@ function close(buttonKey: string | boolean) {
     </template>
     <template v-else>
       <Card
-        v-bind="cardOptions"
+        :cardOptions="cardOptions"
         :title="title"
         :text="text"
         :customComponent="customComponent"
