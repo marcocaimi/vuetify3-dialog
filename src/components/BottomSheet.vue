@@ -34,6 +34,10 @@ const props = defineProps({
     type: Object as PropType<ComponentOptions>,
     required: false,
   },
+  wrapComponent: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // ------- EVENTS -------
@@ -65,7 +69,24 @@ function close(value: string | boolean) {
 
 <template>
   <VBottomSheet class="vuetify3-dialog-bottom-sheet" v-bind="bottomSheetOptions" v-model="showBottomSheet">
-    <VCard @buttonClicked="close(false)">
+    <template v-if="customComponent && !wrapComponent">
+      <VBtn
+        class="close-dialog-btn position-absolute"
+        style="z-index: 1; right: 6px; top: 6px"
+        @click="close(false)"
+        icon
+        variant="text"
+      >
+        <v-icon>$close</v-icon>
+      </VBtn>
+      <component
+        :is="customComponent.component"
+        v-bind="customComponent.props"
+        @closeDialog="close"
+        ref="custom-component"
+      />
+    </template>
+    <VCard v-else @buttonClicked="close(false)">
       <VCardTitle class="d-flex align-center bg-primary justify-space-between">
         {{ title }}
         <v-spacer />
