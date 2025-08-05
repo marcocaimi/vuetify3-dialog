@@ -154,6 +154,7 @@ export default defineComponent({
           customComponent: {
             component: TestComponents,
           },
+          wrapComponent: false,
         })
         .then((value: any) => {
           console.log(value);

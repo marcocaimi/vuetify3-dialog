@@ -1,7 +1,7 @@
 import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import { CreateNotifyOptions } from 'types';
-import { createApp } from 'vue';
+import { createApp, createVNode, render } from 'vue';
 import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
 import Snackbar from './components/Snackbar.vue';
 
@@ -42,26 +42,38 @@ export function createNotification(options: CreateNotifyOptions) {
     if (!isNotEmptyAndNotNull(options.text)) throw new Error('text is required');
 
     return new Promise((resolve, reject) => {
-      const _app = createApp(Snackbar, {
+      // const _app = createApp(Snackbar, {
+      //   text: options.text,
+      //   level: options.level,
+      //   location: potentialLocation,
+      //   notifyOptions: options.notifyOptions || PluginContext.getPluginOptions().defaults?.notify || undefined,
+      //   onCloseSnackbar: () => {
+      //     resolve(true);
+      //     setTimeout(() => {
+      //       _app.unmount();
+      //       document.body.removeChild(div);
+      //     }, 500);
+      //   },
+      // });
+
+      // _app.use(PluginContext.getVuetify());
+      // _app.use(PluginContext.getI18n());
+      // _app.use(PluginContext.getRouter());
+
+      // document.body.appendChild(div);
+      // _app.mount(div);
+
+      const dialogComponentInstance = createVNode(Snackbar, {
         text: options.text,
         level: options.level,
         location: potentialLocation,
         notifyOptions: options.notifyOptions || PluginContext.getPluginOptions().defaults?.notify || undefined,
         onCloseSnackbar: () => {
           resolve(true);
-          setTimeout(() => {
-            _app.unmount();
-            document.body.removeChild(div);
-          }, 500);
         },
       });
-
-      _app.use(PluginContext.getVuetify());
-      _app.use(PluginContext.getI18n());
-      _app.use(PluginContext.getRouter());
-
-      document.body.appendChild(div);
-      _app.mount(div);
+      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._context as any;
+      render(dialogComponentInstance, div);
 
       const vuetifyDivOverlay = document.querySelector('.v-overlay-container');
 

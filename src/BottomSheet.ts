@@ -1,7 +1,7 @@
 import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import { CreateBottomSheetOptions } from 'types';
-import { createApp } from 'vue';
+import { createApp, createVNode, render } from 'vue';
 import { VListItem } from 'vuetify/lib/components/VList/index.mjs';
 import BottomSheet from './components/BottomSheet.vue';
 
@@ -34,7 +34,30 @@ export function createBottomSheet(options: CreateBottomSheetOptions) {
 
     const div = document.createElement('div');
     return new Promise((resolve, reject) => {
-      const _app = createApp(BottomSheet, {
+      // const _app = createApp(BottomSheet, {
+      //   bottomSheetOptions:
+      //     options?.bottomSheetOptions || PluginContext.getPluginOptions().defaults?.bottomSheet || undefined,
+      //   items: options?.items,
+      //   title: options?.title,
+      //   text: options?.text,
+      //   customComponent: options.customComponent,
+      //   onCloseBottomSheet: (value: string | boolean) => {
+      //     resolve(value);
+      //     setTimeout(() => {
+      //       _app.unmount();
+      //       document.body.removeChild(div);
+      //     }, 500);
+      //   },
+      // });
+
+      // _app.use(PluginContext.getVuetify());
+      // _app.use(PluginContext.getI18n());
+      // _app.use(PluginContext.getRouter());
+
+      // document.body.appendChild(div);
+      // _app.mount(div);
+
+      const dialogComponentInstance = createVNode(BottomSheet, {
         bottomSheetOptions:
           options?.bottomSheetOptions || PluginContext.getPluginOptions().defaults?.bottomSheet || undefined,
         items: options?.items,
@@ -43,19 +66,10 @@ export function createBottomSheet(options: CreateBottomSheetOptions) {
         customComponent: options.customComponent,
         onCloseBottomSheet: (value: string | boolean) => {
           resolve(value);
-          setTimeout(() => {
-            _app.unmount();
-            document.body.removeChild(div);
-          }, 500);
         },
       });
-
-      _app.use(PluginContext.getVuetify());
-      _app.use(PluginContext.getI18n());
-      _app.use(PluginContext.getRouter());
-
-      document.body.appendChild(div);
-      _app.mount(div);
+      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._context as any;
+      render(dialogComponentInstance, div);
     });
   } catch (err: any) {
     console.error(`[Vuetify3Dialog] ${err.message} [${err.stack}]`);
