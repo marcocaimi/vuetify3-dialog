@@ -35,7 +35,8 @@ export function notifySuccess(text: string, notifyOptions?: VSnackbar['$props'])
 
 export function createNotification(options: CreateNotifyOptions) {
   try {
-    const potentialLocation = options.location || options.notifyOptions?.location || 'top right';
+    const defaultLocation = PluginContext.getPluginOptions().app?.config.globalProperties.$notify.location;
+    const potentialLocation = options.location || options.notifyOptions?.location || defaultLocation || 'top right';
     let location = potentialLocation.split(' ')[0] || 'top';
     let div = document.createElement('div');
 
