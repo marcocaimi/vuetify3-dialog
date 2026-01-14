@@ -2,7 +2,7 @@ import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import { CreateNotifyOptions } from 'types';
 import { createApp } from 'vue';
-import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
+import { VSnackbar } from 'vuetify/components';
 import Snackbar from './components/Snackbar.vue';
 
 export default class SnackBar extends Notifier {

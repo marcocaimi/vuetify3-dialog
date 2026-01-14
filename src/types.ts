@@ -1,10 +1,5 @@
 import { App, Component, Plugin } from 'vue';
-import { VBottomSheet } from 'vuetify/lib/components/VBottomSheet/index.mjs';
-import { VBtn } from 'vuetify/lib/components/VBtn/index.mjs';
-import { VCard } from 'vuetify/lib/components/VCard/index.mjs';
-import { VDialog } from 'vuetify/lib/components/VDialog/index.mjs';
-import { VListItem } from 'vuetify/lib/components/VList/index.mjs';
-import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
+import { VBottomSheet, VBtn, VCard, VDialog, VListItem, VSnackbar } from 'vuetify/components';
 
 export type PluginOptions = {
   app?: App;

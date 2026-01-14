@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ComponentOptions } from 'types';
 import { computed, Component, PropType, ref } from 'vue';
-import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VIcon, VSpacer } from 'vuetify/lib/components/index.mjs';
+import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VIcon, VSpacer } from 'vuetify/components';
 
 const props = defineProps({
   title: {
