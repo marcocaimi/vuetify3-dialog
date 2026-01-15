@@ -15,6 +15,11 @@ function getOrCreateSnackbarContainer(): HTMLDivElement {
     snackbarContainer = document.createElement('div');
     snackbarContainer.id = 'vuetify3-dialog-snackbar-container';
     snackbarContainer.style.position = 'fixed';
+    snackbarContainer.style.top = '0';
+    snackbarContainer.style.left = '0';
+    snackbarContainer.style.width = '100%';
+    snackbarContainer.style.height = '100%';
+    snackbarContainer.style.pointerEvents = 'none';
     snackbarContainer.style.zIndex = '9999';
     document.body.appendChild(snackbarContainer);
 

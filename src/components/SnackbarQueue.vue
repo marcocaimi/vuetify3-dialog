@@ -28,8 +28,6 @@ function handleClose(id: number) {
       class="snackbar-item"
       :style="{
         backgroundColor: getColor(snackbar.level),
-        marginTop: snackbar.location?.includes('top') ? `${index * 72}px` : undefined,
-        marginBottom: snackbar.location?.includes('bottom') ? `${index * 72}px` : undefined,
       }"
     >
       <div class="snackbar-content">
@@ -40,7 +38,7 @@ function handleClose(id: number) {
   </div>
 </template>
 
-<style scoped>
+<style>
 .snackbar-queue-container {
   position: fixed;
   top: 0;
@@ -53,9 +51,10 @@ function handleClose(id: number) {
   flex-direction: column;
   align-items: center;
   padding: 16px;
+  gap: 1rem;
 }
 
-.snackbar-item {
+.snackbar-queue-container .snackbar-item {
   display: flex;
   align-items: center;
   min-width: 344px;
@@ -73,15 +72,15 @@ function handleClose(id: number) {
   font-family: Roboto, sans-serif;
   pointer-events: auto;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: slideIn 0.3s ease-out;
+  animation: snackbarSlideIn 0.3s ease-out;
 }
 
-.snackbar-content {
+.snackbar-queue-container .snackbar-content {
   flex: 1;
   word-break: break-word;
 }
 
-.snackbar-close {
+.snackbar-queue-container .snackbar-close {
   margin-left: 16px;
   background: transparent;
   border: none;
@@ -93,11 +92,11 @@ function handleClose(id: number) {
   transition: background-color 0.2s;
 }
 
-.snackbar-close:hover {
+.snackbar-queue-container .snackbar-close:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-@keyframes slideIn {
+@keyframes snackbarSlideIn {
   from {
     opacity: 0;
     transform: translateY(-20px);

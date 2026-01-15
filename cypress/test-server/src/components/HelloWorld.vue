@@ -63,9 +63,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { createNotification, notifyError } from 'vuetify3-dialog';
 import MyComponent from './MyComponent.vue';
 import TestComponents from './TestComponents.vue';
-import TestDialogCard from './TestDialogCard.vue';
 import sfcExampleVue from './sfc-example.vue';
 
 export default defineComponent({
@@ -116,16 +116,16 @@ export default defineComponent({
       });
     },
     createNotification() {
-      this.$notify.create({
+      createNotification({
         text: 'Hello world!',
         notifyOptions: {
-          timeout: 3000,
+          timeout: 5000,
           location: 'top right',
         },
       });
     },
     errorNotification() {
-      this.$notify.error('Hello error!\nLorem ipsum dolor sit amet, consectetur!', {
+      notifyError('Hello error!\nLorem ipsum dolor sit amet, consectetur!', {
         timeout: 3000,
         location: 'bottom right',
       });

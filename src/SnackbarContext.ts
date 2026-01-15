@@ -1,5 +1,6 @@
 import type { SnackbarOptions } from 'types';
 import type { VSnackbar } from 'vuetify/components';
+import { reactive } from 'vue';
 
 type VSnackbarProps = VSnackbar['$props'];
 
@@ -13,7 +14,7 @@ const MAX_STACK = 5;
 
 export default class SnackbarContext {
   private static snackbarOptions: SnackbarOptions;
-  private static snackbars: Snackbar[] = [];
+  public static snackbars: Snackbar[] = reactive([]);
   private static queue: Snackbar[] = [];
 
   constructor(_snackbarOptions: SnackbarOptions) {
@@ -53,7 +54,10 @@ export default class SnackbarContext {
   }
 
   static remove(id: number) {
-    this.snackbars = this.snackbars.filter((s) => s.id !== id);
+    const index = this.snackbars.findIndex((s) => s.id === id);
+    if (index !== -1) {
+      this.snackbars.splice(index, 1);
+    }
     this.processQueue();
   }
 }
