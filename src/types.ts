@@ -6,6 +6,8 @@ export type PluginOptions = {
   vuetify: Plugin;
   i18n: Plugin;
   router: Plugin;
+  useSnackbarQueued?: boolean;
+  snackbarOptions?: SnackbarOptions;
   defaults?: {
     dialog?: {
       component?: VDialog['$props'];
@@ -15,6 +17,11 @@ export type PluginOptions = {
     notify?: VSnackbar['$props'];
     bottomSheet?: VBottomSheet['$props'];
   };
+};
+
+export type SnackbarOptions = {
+  maxStack?: number;
+  defaultTimeout?: number;
 };
 
 export type Level = 'warning' | 'error' | 'info' | 'success';
@@ -60,6 +67,7 @@ export type CreateNotifyOptions = {
   text: string;
   level?: string;
   location?: string;
+  timeout?: number;
   notifyOptions?: VSnackbar['$props'];
 };
 

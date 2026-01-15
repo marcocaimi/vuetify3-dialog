@@ -1,6 +1,9 @@
 name: Cypress Tests with Dependency and Artifact Caching
 
-on: push
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   install:
@@ -41,5 +44,3 @@ jobs:
         with:
           start: npm test-server
           browser: chrome
-
-      

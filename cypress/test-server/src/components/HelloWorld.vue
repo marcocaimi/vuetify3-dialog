@@ -5,6 +5,9 @@
 
       <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
 
+      <v-btn id="create-notification" @click="createNotification()">Create notification</v-btn>
+      <v-btn id="error-notification" @click="errorNotification()" color="error">Error notification</v-btn>
+
       <h1 class="text-h2 font-weight-bold">Vuetify</h1>
 
       <div class="py-14" />
