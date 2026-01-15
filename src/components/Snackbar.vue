@@ -1,36 +1,35 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { VSnackbar } from 'vuetify/lib/components/index.mjs';
-
+import { VSnackbar } from 'vuetify/components';
 const props = defineProps({
   text: {
     type: String,
-    required: true
+    required: true,
   },
   location: {
     type: String,
-    required: true
+    required: true,
   },
   level: {
     type: String as () => 'info' | 'warning' | 'error' | 'success',
-    default: 'info'
+    default: 'info',
   },
   notifyOptions: {
     type: Object,
-    default: () => ({})
-  }
-})
+    default: () => ({}),
+  },
+});
 
 // ------- EVENTS -------
-const emit = defineEmits(['closeSnackbar'])
+const emit = defineEmits(['closeSnackbar']);
 
 // ------- DATA -------
-let showSnackbar = ref(true)
+let showSnackbar = ref(true);
 
 // ------- METHODS -------
-function close(){
-  showSnackbar.value = false
-  emit('closeSnackbar')
+function close() {
+  showSnackbar.value = false;
+  emit('closeSnackbar');
 }
 </script>
 
@@ -45,10 +44,8 @@ function close(){
     :dark="level === 'warning' || level === 'error'"
     @update:model-value="close()"
   >
-    {{text}}
+    {{ text }}
   </VSnackbar>
 </template>
 
-<style>
-
-</style>
+<style></style>

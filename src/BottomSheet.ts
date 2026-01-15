@@ -2,7 +2,7 @@ import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import { CreateBottomSheetOptions } from 'types';
 import { createApp, createVNode, render } from 'vue';
-import { VListItem } from 'vuetify/lib/components/VList/index.mjs';
+import { VListItem } from 'vuetify/components';
 import BottomSheet from './components/BottomSheet.vue';
 
 export default class BottomSheets extends Notifier {
