@@ -1,9 +1,37 @@
 import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
+import SnackbarContext from 'SnackbarContext';
 import { CreateNotifyOptions } from 'types';
 import { createVNode, render } from 'vue';
 import { VSnackbar } from 'vuetify/components';
-import Snackbar from './components/Snackbar.vue';
+import SnackbarQueue from './components/SnackbarQueue.vue';
+
+// Shared container for all snackbars
+let snackbarContainer: HTMLDivElement | null = null;
+let queueComponentInitialized = false;
+
+function getOrCreateSnackbarContainer(): HTMLDivElement {
+  if (!snackbarContainer) {
+    snackbarContainer = document.createElement('div');
+    snackbarContainer.id = 'vuetify3-dialog-snackbar-container';
+    snackbarContainer.style.position = 'fixed';
+    snackbarContainer.style.zIndex = '9999';
+    document.body.appendChild(snackbarContainer);
+
+    // Initialize the SnackbarQueue component
+    initializeQueueComponent();
+  }
+  return snackbarContainer;
+}
+
+function initializeQueueComponent(): void {
+  if (!queueComponentInitialized && snackbarContainer) {
+    const queueVNode = createVNode(SnackbarQueue);
+    queueVNode.appContext = PluginContext.getPluginOptions().app?._context as any;
+    render(queueVNode, snackbarContainer);
+    queueComponentInitialized = true;
+  }
+}
 
 export default class SnackBar extends Notifier {
   initContext(): void {
@@ -18,7 +46,7 @@ export default class SnackBar extends Notifier {
 }
 
 export function notifyWarning(text: string, notifyOptions?: VSnackbar['$props']) {
-  return createNotification({ text, level: 'warning', ...notifyOptions });
+  return createNotification({ text, level: 'warning', notifyOptions });
 }
 
 export function notifyError(text: string, notifyOptions?: VSnackbar['$props']) {
@@ -26,7 +54,7 @@ export function notifyError(text: string, notifyOptions?: VSnackbar['$props']) {
 }
 
 export function notifyInfo(text: string, notifyOptions?: VSnackbar['$props']) {
-  return createNotification({ text, level: 'info', ...notifyOptions });
+  return createNotification({ text, level: 'info', notifyOptions });
 }
 
 export function notifySuccess(text: string, notifyOptions?: VSnackbar['$props']) {
@@ -35,51 +63,26 @@ export function notifySuccess(text: string, notifyOptions?: VSnackbar['$props'])
 
 export function createNotification(options: CreateNotifyOptions) {
   try {
-    const defaultLocation = PluginContext.getPluginOptions().app?.config.globalProperties.$notify.location;
-    const potentialLocation = options.location || options.notifyOptions?.location || defaultLocation || 'top right';
-    let location = potentialLocation.split(' ')[0] || 'top';
-    let div = document.createElement('div');
-
     if (!isNotEmptyAndNotNull(options.text)) throw new Error('text is required');
 
+    // Ensure container and queue component are initialized
+    getOrCreateSnackbarContainer();
+
+    const defaultLocation = PluginContext.getPluginOptions().app?.config.globalProperties.$notify.location;
+    const location = options.location || options.notifyOptions?.location || defaultLocation || 'top right';
+
     return new Promise((resolve) => {
-      const dialogComponentInstance = createVNode(Snackbar, {
+      // Push to SnackbarContext queue
+      SnackbarContext.push({
         text: options.text,
-        level: options.level,
-        location: potentialLocation,
-        notifyOptions: options.notifyOptions || PluginContext.getPluginOptions().defaults?.notify || undefined,
-        onCloseSnackbar: () => {
-          resolve(true);
-        },
+        level: options.level || 'info',
+        location,
+        timeout: options.notifyOptions?.timeout || options.timeout || 3000,
+        ...options.notifyOptions,
       });
-      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._context as any;
-      render(dialogComponentInstance, div);
 
-      const vuetifyDivOverlay = document.querySelector('.v-overlay-container');
-
-      let margin = 0;
-
-      if ((vuetifyDivOverlay as HTMLElement)?.childElementCount > 1) {
-        for (let child of (vuetifyDivOverlay as HTMLElement).children) {
-          if (child === (vuetifyDivOverlay as HTMLElement).lastElementChild) continue;
-          if ((child as HTMLElement).lastElementChild) {
-            margin += ((child as HTMLElement).lastElementChild as HTMLElement).offsetHeight + 12;
-          }
-        }
-      }
-
-      if (margin > 0) {
-        switch (location) {
-          case 'top':
-            (vuetifyDivOverlay?.lastElementChild as HTMLElement).style.marginTop = `${margin + 12}px`;
-            break;
-          case 'bottom':
-            (vuetifyDivOverlay?.lastElementChild as HTMLElement).style.marginBottom = `${margin + 12}px`;
-            break;
-          default:
-            throw new Error('location must be top or bottom');
-        }
-      }
+      // Resolve after a short delay to match previous behavior
+      setTimeout(() => resolve(true), 100);
     });
   } catch (err: any) {
     console.error(`[Vuetify3Dialog] ${err.message} [${err.stack}]`);

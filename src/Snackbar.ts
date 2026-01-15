@@ -18,7 +18,7 @@ export default class SnackBar extends Notifier {
 }
 
 export function notifyWarning(text: string, notifyOptions?: VSnackbar['$props']) {
-  return createNotification({ text, level: 'warning', ...notifyOptions });
+  return createNotification({ text, level: 'warning', notifyOptions });
 }
 
 export function notifyError(text: string, notifyOptions?: VSnackbar['$props']) {
@@ -26,7 +26,7 @@ export function notifyError(text: string, notifyOptions?: VSnackbar['$props']) {
 }
 
 export function notifyInfo(text: string, notifyOptions?: VSnackbar['$props']) {
-  return createNotification({ text, level: 'info', ...notifyOptions });
+  return createNotification({ text, level: 'info', notifyOptions });
 }
 
 export function notifySuccess(text: string, notifyOptions?: VSnackbar['$props']) {

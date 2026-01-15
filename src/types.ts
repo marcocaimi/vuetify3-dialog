@@ -65,7 +65,7 @@ export type CreateDialogOptions = {
 
 export type CreateNotifyOptions = {
   text: string;
-  level?: string;
+  level?: Level;
   location?: string;
   timeout?: number;
   notifyOptions?: VSnackbar['$props'];
