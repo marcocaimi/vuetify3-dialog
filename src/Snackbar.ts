@@ -1,7 +1,7 @@
 import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import { CreateNotifyOptions } from 'types';
-import { createApp, createVNode, render } from 'vue';
+import { createVNode, render } from 'vue';
 import { VSnackbar } from 'vuetify/components';
 import Snackbar from './components/Snackbar.vue';
 
@@ -42,28 +42,7 @@ export function createNotification(options: CreateNotifyOptions) {
 
     if (!isNotEmptyAndNotNull(options.text)) throw new Error('text is required');
 
-    return new Promise((resolve, reject) => {
-      // const _app = createApp(Snackbar, {
-      //   text: options.text,
-      //   level: options.level,
-      //   location: potentialLocation,
-      //   notifyOptions: options.notifyOptions || PluginContext.getPluginOptions().defaults?.notify || undefined,
-      //   onCloseSnackbar: () => {
-      //     resolve(true);
-      //     setTimeout(() => {
-      //       _app.unmount();
-      //       document.body.removeChild(div);
-      //     }, 500);
-      //   },
-      // });
-
-      // _app.use(PluginContext.getVuetify());
-      // _app.use(PluginContext.getI18n());
-      // _app.use(PluginContext.getRouter());
-
-      // document.body.appendChild(div);
-      // _app.mount(div);
-
+    return new Promise((resolve) => {
       const dialogComponentInstance = createVNode(Snackbar, {
         text: options.text,
         level: options.level,
@@ -83,9 +62,7 @@ export function createNotification(options: CreateNotifyOptions) {
       if ((vuetifyDivOverlay as HTMLElement)?.childElementCount > 1) {
         for (let child of (vuetifyDivOverlay as HTMLElement).children) {
           if (child === (vuetifyDivOverlay as HTMLElement).lastElementChild) continue;
-          // console.log('child', child);
           if ((child as HTMLElement).lastElementChild) {
-            // console.log('child of child', (child as HTMLElement).lastElementChild);
             margin += ((child as HTMLElement).lastElementChild as HTMLElement).offsetHeight + 12;
           }
         }

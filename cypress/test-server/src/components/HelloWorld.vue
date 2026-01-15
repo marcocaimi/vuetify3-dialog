@@ -104,15 +104,13 @@ export default defineComponent({
       this.$dialog.success({ title: 'My success dialog', text: 'Hello world!' });
     },
     confirmDialog() {
-      this.$dialog
-        .confirm({
-          title: 'My confirm dialog',
-          text: 'Hello world!',
-          level: 'warning',
-          cancelText: 'Cancel button',
-          confirmationText: 'Confirm button',
-        })
-        .then((v: boolean) => console.log(v));
+      this.$dialog.confirm({
+        title: 'My confirm dialog',
+        text: 'Hello world!',
+        level: 'warning',
+        cancelText: 'Cancel button',
+        confirmationText: 'Confirm button',
+      });
     },
     createNotification() {
       this.$notify.create({
@@ -130,48 +128,36 @@ export default defineComponent({
       });
     },
     createBottomsheet() {
-      this.$bottomSheet
-        .create({
-          bottomSheetOptions: { inset: true },
-          dialogOptions: {
-            title: 'My bottom-sheet card dialog',
-            text: 'Hello world!',
-            buttons: [
-              { key: 'button1', title: 'Button 1', variant: 'outlined', color: 'error' },
-              { key: 'button2', title: 'Button 2', variant: 'tonal', color: 'success' },
-            ],
-          },
-        })
-        .then((value: any) => {
-          console.log(value);
-        });
+      this.$bottomSheet.create({
+        bottomSheetOptions: { inset: true },
+        dialogOptions: {
+          title: 'My bottom-sheet card dialog',
+          text: 'Hello world!',
+          buttons: [
+            { key: 'button1', title: 'Button 1', variant: 'outlined', color: 'error' },
+            { key: 'button2', title: 'Button 2', variant: 'tonal', color: 'success' },
+          ],
+        },
+      });
     },
     createBottomsheetCustomComponent() {
-      this.$bottomSheet
-        .create({
-          // bottomSheetOptions: { inset: true },
-          title: 'My custom component bottom sheet',
-          customComponent: {
-            component: TestComponents,
-          },
-          wrapComponent: false,
-        })
-        .then((value: any) => {
-          console.log(value);
-        });
+      this.$bottomSheet.create({
+        // bottomSheetOptions: { inset: true },
+        title: 'My custom component bottom sheet',
+        customComponent: {
+          component: TestComponents,
+        },
+        wrapComponent: false,
+      });
     },
     createBottomsheetList() {
-      this.$bottomSheet
-        .create({
-          items: [
-            { title: 'Item 1', value: 'item1' },
-            { title: 'Item 2', value: 'item2' },
-            { title: 'Item 3', value: 'item3' },
-          ],
-        })
-        .then((value: any) => {
-          console.log(value);
-        });
+      this.$bottomSheet.create({
+        items: [
+          { title: 'Item 1', value: 'item1' },
+          { title: 'Item 2', value: 'item2' },
+          { title: 'Item 3', value: 'item3' },
+        ],
+      });
     },
   },
 });

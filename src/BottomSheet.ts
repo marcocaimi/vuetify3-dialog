@@ -1,7 +1,7 @@
 import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import { CreateBottomSheetOptions } from 'types';
-import { createApp, createVNode, render } from 'vue';
+import { createVNode, render } from 'vue';
 import { VListItem } from 'vuetify/components';
 import BottomSheet from './components/BottomSheet.vue';
 
@@ -33,30 +33,7 @@ export function createBottomSheet(options: CreateBottomSheetOptions) {
     }
 
     const div = document.createElement('div');
-    return new Promise((resolve, reject) => {
-      // const _app = createApp(BottomSheet, {
-      //   bottomSheetOptions:
-      //     options?.bottomSheetOptions || PluginContext.getPluginOptions().defaults?.bottomSheet || undefined,
-      //   items: options?.items,
-      //   title: options?.title,
-      //   text: options?.text,
-      //   customComponent: options.customComponent,
-      //   onCloseBottomSheet: (value: string | boolean) => {
-      //     resolve(value);
-      //     setTimeout(() => {
-      //       _app.unmount();
-      //       document.body.removeChild(div);
-      //     }, 500);
-      //   },
-      // });
-
-      // _app.use(PluginContext.getVuetify());
-      // _app.use(PluginContext.getI18n());
-      // _app.use(PluginContext.getRouter());
-
-      // document.body.appendChild(div);
-      // _app.mount(div);
-
+    return new Promise((resolve) => {
       const dialogComponentInstance = createVNode(BottomSheet, {
         bottomSheetOptions:
           options?.bottomSheetOptions || PluginContext.getPluginOptions().defaults?.bottomSheet || undefined,

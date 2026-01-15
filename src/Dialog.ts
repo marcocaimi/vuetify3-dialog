@@ -56,31 +56,7 @@ export function createDialog(options: CreateDialogOptions) {
       options.buttons.forEach(validateButton);
     }
 
-    return new Promise((resolve, reject) => {
-      //   const _app = createApp(Dialog, {
-      //     title: options.title,
-      //     text: options.text,
-      //     buttons: options.buttons,
-      //     level: options.level,
-      //     showDefaultButtons: options.showDefaultButtons,
-      //     customComponent: options.customComponent,
-      //     wrapComponent: options.wrapComponent || false,
-      //     dialogOptions: options.dialogOptions || {
-      //       minWidth: '600px',
-      //     },
-      //     cardOptions: options.cardOptions || PluginContext.getPluginOptions().defaults?.dialog?.card || undefined,
-      //     onCloseDialog: (value: string | boolean | object) => {
-      //       resolve(value);
-      //       setTimeout(() => {
-      //         dialog.close();
-      //       }, 500);
-      //     },
-      //   });
-
-      //   _app.use(PluginContext.getVuetify());
-      //   _app.use(PluginContext.getI18n());
-      //   _app.use(PluginContext.getRouter());
-
+    return new Promise((resolve) => {
       const dialogComponentInstance = createVNode(Dialog, {
         title: options.title,
         text: options.text,
@@ -103,7 +79,6 @@ export function createDialog(options: CreateDialogOptions) {
       dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._context as any;
       render(dialogComponentInstance, div);
 
-      // let app = _app.mount(div);
       const dialog = new DialogInstance(div, dialogComponentInstance);
       dialogs.push(dialog);
     });
