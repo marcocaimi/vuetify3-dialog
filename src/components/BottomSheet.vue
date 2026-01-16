@@ -11,7 +11,7 @@ import {
   VToolbar,
   VSpacer,
   VBtn,
-} from 'vuetify/lib/components/index.mjs';
+} from 'vuetify/components';
 
 const props = defineProps({
   bottomSheetOptions: {
@@ -70,15 +70,14 @@ function close(value: string | boolean) {
 <template>
   <VBottomSheet class="vuetify3-dialog-bottom-sheet" v-bind="bottomSheetOptions" v-model="showBottomSheet">
     <template v-if="customComponent && !wrapComponent">
-      <VBtn
+      <v-btn
         class="close-dialog-btn position-absolute"
         style="z-index: 1; right: 6px; top: 6px"
         @click="close(false)"
-        icon
-        variant="text"
+        icon="$close"
+        variant="flat"
       >
-        <v-icon>$close</v-icon>
-      </VBtn>
+      </v-btn>
       <component
         :is="customComponent.component"
         v-bind="customComponent.props"

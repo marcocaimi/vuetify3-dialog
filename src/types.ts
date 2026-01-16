@@ -1,16 +1,13 @@
 import { App, Component, Plugin } from 'vue';
-import { VBottomSheet } from 'vuetify/lib/components/VBottomSheet/index.mjs';
-import { VBtn } from 'vuetify/lib/components/VBtn/index.mjs';
-import { VCard } from 'vuetify/lib/components/VCard/index.mjs';
-import { VDialog } from 'vuetify/lib/components/VDialog/index.mjs';
-import { VListItem } from 'vuetify/lib/components/VList/index.mjs';
-import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
+import { VBottomSheet, VBtn, VCard, VDialog, VListItem, VSnackbar } from 'vuetify/components';
 
 export type PluginOptions = {
   app?: App;
   vuetify: Plugin;
   i18n: Plugin;
   router: Plugin;
+  useSnackbarQueued?: boolean;
+  snackbarOptions?: SnackbarOptions;
   defaults?: {
     dialog?: {
       component?: VDialog['$props'];
@@ -20,6 +17,15 @@ export type PluginOptions = {
     notify?: VSnackbar['$props'];
     bottomSheet?: VBottomSheet['$props'];
   };
+};
+
+export type SnackbarOptions = {
+  maxStack?: number;
+  defaultTimeout?: number;
+  direction?: 'top-to-bottom' | 'bottom-to-top';
+  horizontalPosition?: 'left' | 'center' | 'right';
+  verticalPosition?: 'top' | 'bottom';
+  showCancelButton?: boolean;
 };
 
 export type Level = 'warning' | 'error' | 'info' | 'success';
@@ -63,8 +69,9 @@ export type CreateDialogOptions = {
 
 export type CreateNotifyOptions = {
   text: string;
-  level?: string;
+  level?: Level;
   location?: string;
+  timeout?: number;
   notifyOptions?: VSnackbar['$props'];
 };
 

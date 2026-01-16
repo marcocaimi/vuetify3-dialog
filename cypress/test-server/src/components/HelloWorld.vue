@@ -5,6 +5,9 @@
 
       <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
 
+      <v-btn id="create-notification" @click="createNotification()">Create notification</v-btn>
+      <v-btn id="error-notification" @click="errorNotification()" color="error">Error notification</v-btn>
+
       <h1 class="text-h2 font-weight-bold">Vuetify</h1>
 
       <div class="py-14" />
@@ -60,9 +63,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { createNotification, notifyError, notifySuccess, notifyWarning } from 'vuetify3-dialog';
 import MyComponent from './MyComponent.vue';
 import TestComponents from './TestComponents.vue';
-import TestDialogCard from './TestDialogCard.vue';
 import sfcExampleVue from './sfc-example.vue';
 
 export default defineComponent({
@@ -104,73 +107,60 @@ export default defineComponent({
       this.$dialog.success({ title: 'My success dialog', text: 'Hello world!' });
     },
     confirmDialog() {
-      this.$dialog
-        .confirm({
-          title: 'My confirm dialog',
-          text: 'Hello world!',
-          level: 'warning',
-          cancelText: 'Cancel button',
-          confirmationText: 'Confirm button',
-        })
-        .then((v: boolean) => console.log(v));
+      this.$dialog.confirm({
+        title: 'My confirm dialog',
+        text: 'Hello world!',
+        level: 'warning',
+        cancelText: 'Cancel button',
+        confirmationText: 'Confirm button',
+      });
     },
     createNotification() {
-      this.$notify.create({
-        text: 'Hello world!',
+      createNotification({
+        text: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! ',
         notifyOptions: {
-          timeout: 3000,
-          location: 'top right',
+          timeout: 5000,
+          level: 'success',
         },
       });
     },
     errorNotification() {
-      this.$notify.error('Hello error!\nLorem ipsum dolor sit amet, consectetur!', {
+      notifyError('Hello error!\nLorem ipsum dolor sit amet, consectetur!', {
         timeout: 3000,
         location: 'bottom right',
       });
     },
     createBottomsheet() {
-      this.$bottomSheet
-        .create({
-          bottomSheetOptions: { inset: true },
-          dialogOptions: {
-            title: 'My bottom-sheet card dialog',
-            text: 'Hello world!',
-            buttons: [
-              { key: 'button1', title: 'Button 1', variant: 'outlined', color: 'error' },
-              { key: 'button2', title: 'Button 2', variant: 'tonal', color: 'success' },
-            ],
-          },
-        })
-        .then((value: any) => {
-          console.log(value);
-        });
+      this.$bottomSheet.create({
+        bottomSheetOptions: { inset: true },
+        dialogOptions: {
+          title: 'My bottom-sheet card dialog',
+          text: 'Hello world!',
+          buttons: [
+            { key: 'button1', title: 'Button 1', variant: 'outlined', color: 'error' },
+            { key: 'button2', title: 'Button 2', variant: 'tonal', color: 'success' },
+          ],
+        },
+      });
     },
     createBottomsheetCustomComponent() {
-      this.$bottomSheet
-        .create({
-          // bottomSheetOptions: { inset: true },
-          title: 'My custom component bottom sheet',
-          customComponent: {
-            component: TestComponents,
-          },
-        })
-        .then((value: any) => {
-          console.log(value);
-        });
+      this.$bottomSheet.create({
+        // bottomSheetOptions: { inset: true },
+        title: 'My custom component bottom sheet',
+        customComponent: {
+          component: TestComponents,
+        },
+        wrapComponent: false,
+      });
     },
     createBottomsheetList() {
-      this.$bottomSheet
-        .create({
-          items: [
-            { title: 'Item 1', value: 'item1' },
-            { title: 'Item 2', value: 'item2' },
-            { title: 'Item 3', value: 'item3' },
-          ],
-        })
-        .then((value: any) => {
-          console.log(value);
-        });
+      this.$bottomSheet.create({
+        items: [
+          { title: 'Item 1', value: 'item1' },
+          { title: 'Item 2', value: 'item2' },
+          { title: 'Item 3', value: 'item3' },
+        ],
+      });
     },
   },
 });

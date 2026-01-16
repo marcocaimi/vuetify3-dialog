@@ -2,6 +2,7 @@ import clear from 'rollup-plugin-clear';
 import copy from 'rollup-plugin-copy';
 import typescript from 'rollup-plugin-typescript2';
 import vuePlugin from 'rollup-plugin-vue';
+import postcss from 'rollup-plugin-postcss';
 
 export default async function config (args) {
   return {
@@ -11,8 +12,15 @@ export default async function config (args) {
       format: 'esm',
       sourcemap: true,
     },
+    external: ['vue', 'vuetify/components'],
     plugins: [
-      vuePlugin(),
+      vuePlugin({
+        css: false,
+      }),
+      postcss({
+        extract: false,
+        inject: false,
+      }),
       typescript({
         tsconfigOverride: {
           compilerOptions: {

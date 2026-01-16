@@ -1,8 +1,8 @@
 import Notifier from 'Notifier';
 import PluginContext from 'PluginContext';
 import { CreateNotifyOptions } from 'types';
-import { createApp } from 'vue';
-import { VSnackbar } from 'vuetify/lib/components/VSnackbar/index.mjs';
+import { createVNode, render } from 'vue';
+import { VSnackbar } from 'vuetify/components';
 import Snackbar from './components/Snackbar.vue';
 
 export default class SnackBar extends Notifier {
@@ -18,7 +18,7 @@ export default class SnackBar extends Notifier {
 }
 
 export function notifyWarning(text: string, notifyOptions?: VSnackbar['$props']) {
-  return createNotification({ text, level: 'warning', ...notifyOptions });
+  return createNotification({ text, level: 'warning', notifyOptions });
 }
 
 export function notifyError(text: string, notifyOptions?: VSnackbar['$props']) {
@@ -26,7 +26,7 @@ export function notifyError(text: string, notifyOptions?: VSnackbar['$props']) {
 }
 
 export function notifyInfo(text: string, notifyOptions?: VSnackbar['$props']) {
-  return createNotification({ text, level: 'info', ...notifyOptions });
+  return createNotification({ text, level: 'info', notifyOptions });
 }
 
 export function notifySuccess(text: string, notifyOptions?: VSnackbar['$props']) {
@@ -35,33 +35,25 @@ export function notifySuccess(text: string, notifyOptions?: VSnackbar['$props'])
 
 export function createNotification(options: CreateNotifyOptions) {
   try {
-    const potentialLocation = options.location || options.notifyOptions?.location || 'top right';
+    const defaultLocation = PluginContext.getPluginOptions().app?.config.globalProperties.$notify.location;
+    const potentialLocation = options.location || options.notifyOptions?.location || defaultLocation || 'top right';
     let location = potentialLocation.split(' ')[0] || 'top';
     let div = document.createElement('div');
 
     if (!isNotEmptyAndNotNull(options.text)) throw new Error('text is required');
 
-    return new Promise((resolve, reject) => {
-      const _app = createApp(Snackbar, {
+    return new Promise((resolve) => {
+      const dialogComponentInstance = createVNode(Snackbar, {
         text: options.text,
         level: options.level,
         location: potentialLocation,
         notifyOptions: options.notifyOptions || PluginContext.getPluginOptions().defaults?.notify || undefined,
         onCloseSnackbar: () => {
           resolve(true);
-          setTimeout(() => {
-            _app.unmount();
-            document.body.removeChild(div);
-          }, 500);
         },
       });
-
-      _app.use(PluginContext.getVuetify());
-      _app.use(PluginContext.getI18n());
-      _app.use(PluginContext.getRouter());
-
-      document.body.appendChild(div);
-      _app.mount(div);
+      dialogComponentInstance.appContext = PluginContext.getPluginOptions().app?._context as any;
+      render(dialogComponentInstance, div);
 
       const vuetifyDivOverlay = document.querySelector('.v-overlay-container');
 
@@ -70,9 +62,7 @@ export function createNotification(options: CreateNotifyOptions) {
       if ((vuetifyDivOverlay as HTMLElement)?.childElementCount > 1) {
         for (let child of (vuetifyDivOverlay as HTMLElement).children) {
           if (child === (vuetifyDivOverlay as HTMLElement).lastElementChild) continue;
-          // console.log('child', child);
           if ((child as HTMLElement).lastElementChild) {
-            // console.log('child of child', (child as HTMLElement).lastElementChild);
             margin += ((child as HTMLElement).lastElementChild as HTMLElement).offsetHeight + 12;
           }
         }
