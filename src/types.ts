@@ -24,7 +24,8 @@ export type SnackbarOptions = {
   defaultTimeout?: number;
   direction?: 'top-to-bottom' | 'bottom-to-top';
   horizontalPosition?: 'left' | 'center' | 'right';
-  verticalPosition?: 'top' | 'center' | 'bottom';
+  verticalPosition?: 'top' | 'bottom';
+  showCancelButton?: boolean;
 };
 
 export type Level = 'warning' | 'error' | 'info' | 'success';

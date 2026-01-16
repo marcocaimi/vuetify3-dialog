@@ -3,24 +3,44 @@ import { computed } from 'vue';
 import SnackbarContext from '../SnackbarContext';
 
 const snackbars = computed(() => SnackbarContext['snackbars'] || []);
+const showCancelButton = SnackbarContext.getSnackbarOptions()?.showCancelButton ?? true;
 
 function handleClose(id: number) {
   SnackbarContext.remove(id);
 }
+
+function getAriaLive(level?: string): 'polite' | 'assertive' {
+  return level === 'error' || level === 'warning' ? 'assertive' : 'polite';
+}
+
+function getRole(level?: string): 'alert' | 'status' {
+  return level === 'error' || level === 'warning' ? 'alert' : 'status';
+}
 </script>
 
 <template>
-  <div class="snackbar-queue-container">
+  <div class="snackbar-queue-container" aria-live="polite" aria-relevant="additions">
     <div
       v-for="(snackbar, index) in snackbars"
       :key="snackbar.id"
       class="snackbar-item"
       :class="`bg-${snackbar.level || 'bg-info'}`"
+      :role="getRole(snackbar.level)"
+      :aria-live="getAriaLive(snackbar.level)"
+      aria-atomic="true"
     >
-      <div class="snackbar-content">
+      <div class="snackbar-content" :id="`snackbar-content-${snackbar.id}`">
         {{ snackbar.text }}
       </div>
-      <button class="snackbar-close" @click="handleClose(snackbar.id)">✕</button>
+      <button
+        v-if="showCancelButton"
+        class="snackbar-close"
+        @click="handleClose(snackbar.id)"
+        :aria-label="`Close notification: ${snackbar.text}`"
+        type="button"
+      >
+        ✕
+      </button>
     </div>
   </div>
 </template>
