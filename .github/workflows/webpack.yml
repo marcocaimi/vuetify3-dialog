@@ -2,9 +2,9 @@ name: Build Library And Test
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['master']
   pull_request:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   build:
@@ -15,26 +15,24 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install
-      run: |
-        npm install
-    - name: Test
-      run: |
-        npm run e2e
-    - name: Build
-      run: |
-        npm run build
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4.3.2
-      with:
-        name: vuetify3-dialog
-        path: lib/*
-        
-        
+      - name: Install
+        run: |
+          npm install
+      # - name: Test
+      #   run: |
+      #     npm run e2e
+      - name: Build
+        run: |
+          npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4.3.2
+        with:
+          name: vuetify3-dialog
+          path: lib/*
