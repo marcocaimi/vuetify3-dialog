@@ -28,6 +28,9 @@ export default class SnackbarContext {
   static getMaxVisible(): number {
     return SnackbarContext.snackbarOptions?.maxStack || MAX_STACK;
   }
+  static getDefaultTimeout(): number {
+    return SnackbarContext.snackbarOptions?.defaultTimeout || DEFAULT_TIMEOUT;
+  }
 
   static push(payload: Omit<Snackbar, 'id'>) {
     const snackbar: Snackbar = {

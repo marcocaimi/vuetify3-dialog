@@ -21,6 +21,15 @@ function getOrCreateSnackbarContainer(): HTMLDivElement {
     snackbarContainer.style.height = '100%';
     snackbarContainer.style.pointerEvents = 'none';
     snackbarContainer.style.zIndex = '9999';
+
+    // Apply direction and position classes based on options
+    const options = SnackbarContext.getSnackbarOptions();
+    const direction = options?.direction || 'top-to-bottom';
+    const horizontalPosition = options?.horizontalPosition || 'left';
+    const verticalPosition = options?.verticalPosition || 'top';
+
+    snackbarContainer.className = `snackbar-direction-${direction} snackbar-horizontal-${horizontalPosition} snackbar-vertical-${verticalPosition}`;
+
     document.body.appendChild(snackbarContainer);
 
     // Initialize the SnackbarQueue component
@@ -82,7 +91,7 @@ export function createNotification(options: CreateNotifyOptions) {
         text: options.text,
         level: options.level || 'info',
         location,
-        timeout: options.notifyOptions?.timeout || options.timeout || 3000,
+        timeout: options.timeout || SnackbarContext.getDefaultTimeout(),
         ...options.notifyOptions,
       });
 

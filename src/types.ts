@@ -22,6 +22,9 @@ export type PluginOptions = {
 export type SnackbarOptions = {
   maxStack?: number;
   defaultTimeout?: number;
+  direction?: 'top-to-bottom' | 'bottom-to-top';
+  horizontalPosition?: 'left' | 'center' | 'right';
+  verticalPosition?: 'top' | 'center' | 'bottom';
 };
 
 export type Level = 'warning' | 'error' | 'info' | 'success';

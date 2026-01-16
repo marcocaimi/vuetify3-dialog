@@ -117,10 +117,9 @@ export default defineComponent({
     },
     createNotification() {
       createNotification({
-        text: 'Hello world!',
+        text: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! ',
         notifyOptions: {
-          timeout: 5000,
-          location: 'top right',
+          timeout: 50000,
         },
       });
     },

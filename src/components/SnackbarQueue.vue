@@ -4,17 +4,6 @@ import SnackbarContext from '../SnackbarContext';
 
 const snackbars = computed(() => SnackbarContext['snackbars'] || []);
 
-const colorMap: Record<string, string> = {
-  info: '#2196F3',
-  success: '#4CAF50',
-  warning: '#FB8C00',
-  error: '#FF5252',
-};
-
-function getColor(level?: string): string {
-  return colorMap[level || 'info'] || colorMap.info;
-}
-
 function handleClose(id: number) {
   SnackbarContext.remove(id);
 }
@@ -26,9 +15,7 @@ function handleClose(id: number) {
       v-for="(snackbar, index) in snackbars"
       :key="snackbar.id"
       class="snackbar-item"
-      :style="{
-        backgroundColor: getColor(snackbar.level),
-      }"
+      :class="`bg-${snackbar.level || 'bg-info'}`"
     >
       <div class="snackbar-content">
         {{ snackbar.text }}
@@ -50,26 +37,48 @@ function handleClose(id: number) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  padding: 1rem;
   gap: 1rem;
+}
+
+/* Direction variations */
+#vuetify3-dialog-snackbar-container.snackbar-direction-bottom-to-top .snackbar-queue-container {
+  flex-direction: column-reverse;
+}
+
+/* Vertical position variations */
+#vuetify3-dialog-snackbar-container.snackbar-vertical-bottom .snackbar-queue-container {
+  top: auto;
+  bottom: 0;
+}
+
+/* Horizontal position variations */
+#vuetify3-dialog-snackbar-container.snackbar-horizontal-left .snackbar-queue-container {
+  left: 0;
+  transform: translateX(0);
+  align-items: flex-start;
+}
+
+#vuetify3-dialog-snackbar-container.snackbar-horizontal-right .snackbar-queue-container {
+  left: auto;
+  right: 0;
+  transform: translateX(0);
+  align-items: flex-end;
 }
 
 .snackbar-queue-container .snackbar-item {
   display: flex;
   align-items: center;
-  min-width: 344px;
-  max-width: 672px;
-  padding: 14px 16px;
-  margin-bottom: 8px;
-  border-radius: 4px;
+  width: 330px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
   box-shadow:
     0 3px 5px -1px rgba(0, 0, 0, 0.2),
     0 6px 10px 0 rgba(0, 0, 0, 0.14),
     0 1px 18px 0 rgba(0, 0, 0, 0.12);
   color: white;
-  font-size: 14px;
-  line-height: 20px;
-  font-family: Roboto, sans-serif;
+  font-size: 0.875rem;
   pointer-events: auto;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: snackbarSlideIn 0.3s ease-out;
@@ -81,14 +90,14 @@ function handleClose(id: number) {
 }
 
 .snackbar-queue-container .snackbar-close {
-  margin-left: 16px;
+  margin-left: 1rem;
   background: transparent;
   border: none;
-  color: white;
-  font-size: 18px;
+  color: rgb(var(--v-theme-white, #ffffff));
+  font-size: 1rem;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
   transition: background-color 0.2s;
 }
 
