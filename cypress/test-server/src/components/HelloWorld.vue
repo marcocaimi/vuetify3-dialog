@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { createNotification, notifyError } from 'vuetify3-dialog';
+import { createNotification, notifyError, notifySuccess, notifyWarning } from 'vuetify3-dialog';
 import MyComponent from './MyComponent.vue';
 import TestComponents from './TestComponents.vue';
 import sfcExampleVue from './sfc-example.vue';
@@ -119,7 +119,8 @@ export default defineComponent({
       createNotification({
         text: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! ',
         notifyOptions: {
-          timeout: 50000,
+          timeout: 5000,
+          level: 'success',
         },
       });
     },

@@ -70,8 +70,8 @@ function handleClose(id: number) {
   display: flex;
   align-items: center;
   width: 330px;
+  max-width: 100%;
   padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
   border-radius: 0.25rem;
   box-shadow:
     0 3px 5px -1px rgba(0, 0, 0, 0.2),
