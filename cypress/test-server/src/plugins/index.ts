@@ -23,11 +23,17 @@ export function registerPlugins(app: App) {
     // i18n: i18n,
     router: router,
     useSnackbarQueued: true,
-    defaults: {
-      snackbarOptions: {
-        maxStack: 4,
-        defaultTimeout: 20000,
+    snackbarOptions: {
+      maxStack: 4,
+      defaultTimeout: 20000,
+      icons: {
+        warning: '$warning',
+
+        info: '$info',
+        success: '$success',
       },
+    },
+    defaults: {
       dialog: {
         class: 'pa-4 pt-10',
         cardOptions: {

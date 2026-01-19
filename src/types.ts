@@ -26,6 +26,13 @@ export type SnackbarOptions = {
   horizontalPosition?: 'left' | 'center' | 'right';
   verticalPosition?: 'top' | 'bottom';
   showCancelButton?: boolean;
+  cancelButtonIcon?: string;
+  icons?: {
+    warning?: string;
+    error?: string;
+    info?: string;
+    success?: string;
+  };
 };
 
 export type Level = 'warning' | 'error' | 'info' | 'success';
