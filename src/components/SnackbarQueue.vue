@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import SnackbarContext from '../SnackbarContext';
+import { VIcon } from 'vuetify/components';
 
 const snackbars = computed(() => SnackbarContext['snackbars'] || []);
 const showCancelButton = SnackbarContext.getSnackbarOptions()?.showCancelButton ?? true;
+const icons = SnackbarContext.getSnackbarOptions()?.icons;
 
 function handleClose(id: number) {
   SnackbarContext.remove(id);
@@ -15,6 +17,22 @@ function getAriaLive(level?: string): 'polite' | 'assertive' {
 
 function getRole(level?: string): 'alert' | 'status' {
   return level === 'error' || level === 'warning' ? 'alert' : 'status';
+}
+
+function getIcon(level?: string): string | undefined {
+  if (!icons) return undefined;
+
+  switch (level) {
+    case 'error':
+      return icons.error;
+    case 'warning':
+      return icons.warning;
+    case 'success':
+      return icons.success;
+    case 'info':
+    default:
+      return icons.info;
+  }
 }
 </script>
 
@@ -29,6 +47,9 @@ function getRole(level?: string): 'alert' | 'status' {
       :aria-live="getAriaLive(snackbar.level)"
       aria-atomic="true"
     >
+      <v-icon v-if="icons && getIcon(snackbar.level)" class="snackbar-icon">
+        {{ getIcon(snackbar.level) }}
+      </v-icon>
       <div class="snackbar-content" :id="`snackbar-content-${snackbar.id}`">
         {{ snackbar.text }}
       </div>
@@ -102,6 +123,13 @@ function getRole(level?: string): 'alert' | 'status' {
   pointer-events: auto;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: snackbarSlideIn 0.3s ease-out;
+}
+
+.snackbar-queue-container .snackbar-icon {
+  margin-right: 0.75rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
 }
 
 .snackbar-queue-container .snackbar-content {
