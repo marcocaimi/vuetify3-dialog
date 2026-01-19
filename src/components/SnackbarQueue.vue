@@ -1,14 +1,26 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import SnackbarContext from '../SnackbarContext';
-import { VIcon } from 'vuetify/components';
+import { VBtn, VIcon } from 'vuetify/components';
+import PluginContext from 'PluginContext';
 
 const snackbars = computed(() => SnackbarContext['snackbars'] || []);
 const showCancelButton = SnackbarContext.getSnackbarOptions()?.showCancelButton ?? true;
+const cancelButtonIcon = SnackbarContext.getSnackbarOptions()?.cancelButtonIcon || '$cancel';
 const icons = SnackbarContext.getSnackbarOptions()?.icons;
+
+console.log(' Plugin I18n:', PluginContext.getI18n());
 
 function handleClose(id: number) {
   SnackbarContext.remove(id);
+}
+
+function getCloseBtnAriaLabel(snackbarText: string): string {
+  const i18n = PluginContext.getI18n();
+  if (i18n && i18n.global?.t && i18n.global?.te('snackbar.closeButtonAriaLabel')) {
+    return i18n.global.t('snackbar.closeButtonAriaLabel', { message: snackbarText }) as string;
+  }
+  return `Chiudi notifica: ${snackbarText}`;
 }
 
 function getAriaLive(level?: string): 'polite' | 'assertive' {
@@ -53,15 +65,15 @@ function getIcon(level?: string): string | undefined {
       <div class="snackbar-content" :id="`snackbar-content-${snackbar.id}`">
         {{ snackbar.text }}
       </div>
-      <button
+      <VBtn
         v-if="showCancelButton"
         class="snackbar-close"
         @click="handleClose(snackbar.id)"
-        :aria-label="`Close notification: ${snackbar.text}`"
-        type="button"
-      >
-        ✕
-      </button>
+        :aria-label="getCloseBtnAriaLabel(snackbar.text)"
+        variant="text"
+        :icon="cancelButtonIcon"
+        size="x-small"
+      />
     </div>
   </div>
 </template>

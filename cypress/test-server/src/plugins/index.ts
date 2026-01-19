@@ -28,6 +28,7 @@ export function registerPlugins(app: App) {
       defaultTimeout: 20000,
       icons: {
         warning: '$warning',
+
         info: '$info',
         success: '$success',
       },

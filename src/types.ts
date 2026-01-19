@@ -26,6 +26,7 @@ export type SnackbarOptions = {
   horizontalPosition?: 'left' | 'center' | 'right';
   verticalPosition?: 'top' | 'bottom';
   showCancelButton?: boolean;
+  cancelButtonIcon?: string;
   icons?: {
     warning?: string;
     error?: string;
