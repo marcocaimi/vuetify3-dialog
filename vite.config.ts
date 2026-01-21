@@ -8,23 +8,31 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   plugins: [vue()],
   build: {
+    outDir: 'lib',
+    emptyOutDir: true,
+    sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'Vuetify3Dialog',
+      name: 'vuetify3-dialog',
       fileName: 'index',
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['vue', 'vuetify/components'],
+      external: ['vue', /^vuetify.*/],
       output: {
         globals: {
           vue: 'Vue',
         },
       },
     },
-    outDir: 'lib',
-    emptyOutDir: true,
-    sourcemap: true,
+    cssCodeSplit: false,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '',
+      },
+    },
   },
   resolve: {
     alias: {
